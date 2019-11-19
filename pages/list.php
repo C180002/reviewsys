@@ -9,9 +9,14 @@
     <link rel="stylesheet" href="../assets/css/list.css" />
   </head>
 <?php
+    require_once "../class/Area.php";
     require_once "../class/Restaurant.php";
 
-    $area = array('福岡', '神戸', '伊豆');
+    $area = array();
+
+    $area[] = new Area('福岡');
+    $area[] = new Area('神戸');
+    $area[] = new Area('伊豆');
     
     $restaurant_list = array();
     
@@ -116,7 +121,7 @@
     {
 ?>
             <option value="<?= $i + 1 ?>" <?= $area_id_param == $i + 1 ? 'selected' : '' ?>>
-                <?= $area[$i] ?>
+                <?= $area[$i]->getName() ?>
             </option>
 <?php
     }
@@ -140,9 +145,12 @@
 
         if ($area_id_param !== '')
         {
-            if ($area_id_param != $area_id)
+            if ($area_id_param != '0')
             {
-                continue;
+                if ($area_id_param != $area_id)
+                {
+                    continue;
+                }
             }
         }
 ?>
