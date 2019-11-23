@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <title>
-      レストラン一覧 - レストラン・レビュ・サイト
+      レストラン一覧 - レストラン・レビュー・サイト
     </title>
     <link rel="stylesheet" href="../assets/css/style.css" />
     <link rel="stylesheet" href="../assets/css/list.css" />
@@ -94,7 +94,7 @@
     <header>
       <h1>
         <a href="list.php">
-          レストラン・レビュ・サイト
+          レストラン・レビュー・サイト
         </a>
       </h1>
     </header>
@@ -121,6 +121,7 @@
 ?>
           </select>
           <input type="submit" value="検索" />
+          <input type="hidden" name="restaurant_list" value="<?= $restaurant_list ?>">
         </form>
       </div><!-- /.clearfix -->
       <table class="list">
@@ -156,7 +157,11 @@
               </dd>
             </dl>
           </td>
-          <td class="detail"><a href="detail.html?id=<?= $id ?>">詳細</a></td>
+          <td class="detail">
+            <a href="detail.php?id=<?= $id ?>">
+              詳細
+            </a>
+          </td>
         </tr>
 <?php
     }

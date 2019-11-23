@@ -39,7 +39,7 @@ create table restaurants (
   foreign key(area) references areas(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- レビュテーブル
+-- レビューテーブル
 create table reviews (
   id mediumint unsigned not null unique auto_increment,
   restaurant mediumint unsigned not null, 
@@ -76,7 +76,7 @@ insert into restaurants (name, detail, image, area )
 insert into restaurants (name, detail, image, area ) 
 								 values ('レストラン さくら', '四季折々の自然を楽しむ伊豆市に、ひっそりと佇む隠れ家レストラン。\n旅行でいらっしゃった方も、お近くの方も、お気軽にお立ち寄りください。', 'restaurant_7.jpg', 3);
 
--- レビュの登録
+-- レビューの登録
 delete from reviews;
 insert into reviews (restaurant, reviewer, comment, rating) 
 						 values (7, 'totsuka', '常連の者で、いつも夫婦で伺っています。席数が少ないので予約した方が安心ですが、その分落ち着いて食事できますよ。コースのメインは基本的にシェフにお任せ。来るたびに、新しい味との出会いを楽しめるお店です。', 4);
