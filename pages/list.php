@@ -70,6 +70,7 @@
 ?>
           </select>
           <input type="submit" value="検索" />
+          <input type="hidden" name="restaurant_list" value="<?= $restaurant_list ?>">
         </form>
       </div><!-- /.clearfix -->
       <table class="list">
