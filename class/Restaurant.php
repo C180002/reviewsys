@@ -1,20 +1,20 @@
 <?php
     class Restaurant
     {
-        private $id = '';
+        // private $id = '';
         private $name = '';
         private $area_id = '';
         private $summary = '';
 
-        public function getId()
-        {
-            return $this->id;
-        }
+        // public function getId()
+        // {
+        //     return $this->id;
+        // }
 
-        public function setId($id)
-        {
-            $this->id = $id;
-        }
+        // public function setId($id)
+        // {
+        //     $this->id = $id;
+        // }
 
         public function getName()
         {
