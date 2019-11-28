@@ -4,6 +4,7 @@
         private $id = '';
         private $area_id = '';
         private $name = '';
+        private $image = '';
         private $summary = '';
 
         public function getId()
@@ -36,6 +37,16 @@
             $this->name = $name;
         }
 
+        public function getImage()
+        {
+            return $this->image;
+        }
+
+        public function setImage($image)
+        {
+            $this->image = $image;
+        }
+
         public function getSummary()
         {
             return $this->summary;
@@ -51,11 +62,12 @@
 
         }
 
-        // function __construct($id, $area_id, $name, $summary)
+        // function __construct($id, $area_id, $name, $image, $summary)
         // {
         //     $this->id = $id;
         //     $this->area_id = $area_id;
         //     $this->name = $name;
+        //     $this->image = $image;
         //     $this->summary = $summary;
         // }
     }

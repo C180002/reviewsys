@@ -15,11 +15,28 @@
 
     session_start();
 
-    $id = $_GET['id'];
+    if (isset($_GET['id']))
+    {
+        $id = $_GET['id'];
+
+        $_SESSION['id'] = $id;
+    }
+    elseif (isset($_SESSION['id']))
+    {
+        $id = $_SESSION['id'];
+    }
 
     $restaurant_list = $_SESSION['restaurant_list'];
 
-    $restaurant = $restaurant_list[$id];
+    $restaurant = null;
+
+    foreach ($restaurant_list as $rstn)
+    {
+        if ($rstn->getId() == $id)
+        {
+            $restaurant = $rstn;
+        }
+    }
     
     $da = new DataAcquisition();
 
@@ -51,7 +68,7 @@
         <table class="list">
           <tr>
             <td class="photo">
-              <img width="110" alt="「<?= $restaurant->getName() ?>」の写真" src="../pages/img/restaurant_<?= $id + 1 ?>.jpg" />
+              <img width="110" alt="「<?= $restaurant->getName() ?>」の写真" src="../pages/img/<?= $restaurant->getImage() ?>" />
             </td>
             <td class="info">
               <dl>
@@ -102,7 +119,7 @@
         <h2>
           レビューを書き込む
         </h2>
-        <form name="review_form" action="detail.html" method="post">
+        <form name="review_form" action="detail.php" method="post">
           <table class="review">
             <tr>
               <th>

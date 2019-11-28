@@ -59,11 +59,12 @@
                -- 地域を選んで下さい -- 
             </option>
 <?php
-    for ($i = 0; $i < count($area_list); $i++)
+    foreach ($area_list as $a)
     {
+        $area_id = $a->getId();
 ?>
-            <option value="<?= $i + 1 ?>" <?= $area_id_param == $i + 1 ? 'selected' : '' ?>>
-                <?= $area_list[$i]->getName() ?>
+            <option value="<?= $area_id ?>" <?= $area_id == $area_id_param ? 'selected' : '' ?>>
+                <?= $a->getName() ?>
             </option>
 <?php
     }
@@ -74,16 +75,13 @@
       </div><!-- /.clearfix -->
       <table class="list">
 <?php
-    // foreach ($restaurant_list as $rstrnt)
-    for ($i = 0; $i < count($restaurant_list); $i++)
+    foreach ($restaurant_list as $rstn)
     {
-        // $id = $rstrnt->getId();
-        // $name = $rstrnt->getName();
-        // $area_id = $rstrnt->getAreaId();
-        // $summary = $rstrnt->getSummary();
-        $name = $restaurant_list[$i]->getName();
-        $area_id = $restaurant_list[$i]->getAreaId();
-        $summary = $restaurant_list[$i]->getSummary();
+        $id = $rstn->getId();
+        $area_id = $rstn->getAreaId();
+        $name = $rstn->getName();
+        $image = $rstn->getImage();
+        $summary = $rstn->getSummary();
 
         if ($area_id_param !== '')
         {
@@ -97,7 +95,7 @@
         }
 ?>
         <tr>
-          <td class="photo"><img width="110" alt="「<?= $name ?>」の写真" src="../pages/img/restaurant_<?= $i + 1 ?>.jpg" />
+          <td class="photo"><img width="110" alt="「<?= $name ?>」の写真" src="../pages/img/<?= $image ?>" />
           </td>
           <td class="info">
             <dl>
@@ -110,7 +108,7 @@
             </dl>
           </td>
           <td class="detail">
-            <a href="detail.php?id=<?= $i ?>">
+            <a href="detail.php?id=<?= $id ?>">
               詳細
             </a>
           </td>
