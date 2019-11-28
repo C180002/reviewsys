@@ -1,6 +1,7 @@
 <?php
     require_once('Area.php');
     require_once('Restaurant.php');
+    require_once('Review.php');
 
     class DataAcquisition
     {
@@ -21,7 +22,7 @@
             
             $restaurant = new Restaurant();
             
-            // $restaurant->setId('1');
+            $restaurant->setId('rstn0001');
             $restaurant->setName('Wine Bar ENOTECA');
             $restaurant->setAreaId('3');
             $restaurant->setSummary('常時10種類以上の赤・白ワインをご用意しています。<br />記念日にご来店ください。');
@@ -30,7 +31,7 @@
 
             $restaurant = new Restaurant();
             
-            // $restaurant->setId('2');
+            $restaurant->setId('rstn0002');
             $restaurant->setName('スペイン料理 ポルファボール！');
             $restaurant->setAreaId('2');
             $restaurant->setSummary('味が自慢。スペイン現地で学んだシェフが出す味は本物です。');
@@ -39,7 +40,7 @@
             
             $restaurant = new Restaurant();
             
-            // $restaurant->setId('3');
+            $restaurant->setId('rstn0003');
             $restaurant->setName('パス・パスタ');
             $restaurant->setAreaId('3');
             $restaurant->setSummary('本当のパスタを味わうならパス・パスタで！<br />休日の優雅なランチタイムに是非どうぞ。');
@@ -48,7 +49,7 @@
             
             $restaurant = new Restaurant();
             
-            // $restaurant->setId('4');
+            $restaurant->setId('rstn0004');
             $restaurant->setName('レストラン「有閑」');
             $restaurant->setAreaId('2');
             $restaurant->setSummary('広い店内で、お昼の優雅なひと時を過ごしませんか？');
@@ -57,7 +58,7 @@
             
             $restaurant = new Restaurant();
             
-            // $restaurant->setId('5');
+            $restaurant->setId('rstn0005');
             $restaurant->setName('ビストロ「ルーヴル」');
             $restaurant->setAreaId('3');
             $restaurant->setSummary('高層ビル42階のビストロで、県内が一望できる。恋人とのひと時をここで過ごしませんか。');
@@ -66,7 +67,7 @@
             
             $restaurant = new Restaurant();
             
-            // $restaurant->setId('6');
+            $restaurant->setId('rstn0006');
             $restaurant->setName('海沿いのレストラン La Mer');
             $restaurant->setAreaId('1');
             $restaurant->setSummary('海が見える、海沿いのレストランです。');
@@ -75,7 +76,7 @@
             
             $restaurant = new Restaurant();
             
-            // $restaurant->setId('7');
+            $restaurant->setId('rstn0007');
             $restaurant->setName('レストラン さくら');
             $restaurant->setAreaId('3');
             $restaurant->setSummary('四季折々の自然を楽しむ伊豆市に、ひっそりと佇む隠れ家レストラン。\n旅行でいらっしゃった方も、お近くの方も、お気軽にお立ち寄りください。');
@@ -83,5 +84,62 @@
             $restaurant_list[] = $restaurant;
 
             return $restaurant_list;
+        }
+        
+        public function acquireReview()
+        {
+            $review_list = array();
+            
+            $review = new Review();
+            
+            $review->setId('rvw00001');
+            $review->setRestaurantId('rstn0007');
+            $review->setName('totsuka');
+            $review->setPoint(4);
+            $review->setSentence('常連の者で、いつも夫婦で伺っています。席数が少ないので予約した方が安心ですが、その分落ち着いて食事できますよ。コースのメインは基本的にシェフにお任せ。来るたびに、新しい味との出会いを楽しめるお店です。');
+
+            $review_list[] = $review;
+
+            $review = new Review();
+            
+            $review->setId('rvw00002');
+            $review->setRestaurantId('rstn0007');
+            $review->setName('oie');
+            $review->setPoint(5);
+            $review->setSentence('説明の通り、喧騒を外れた場所にひっそりとあるレストランでした。伊豆市には初めて来ましたが、本当に桜がきれいですね。何よりも空気がきれいで、いいリフレッシュになりました。');
+
+            $review_list[] = $review;
+            
+            $review = new Review();
+            
+            $review->setId('rvw00003');
+            $review->setRestaurantId('rstn0003');
+            $review->setName('パパス');
+            $review->setPoint(5);
+            $review->setSentence('パス・パスタのレビュー１');
+
+            $review_list[] = $review;
+            
+            $review = new Review();
+            
+            $review->setId('rvw00004');
+            $review->setRestaurantId('rstn0003');
+            $review->setName('有閑');
+            $review->setPoint(3);
+            $review->setSentence('パス・パスタのレビュー２');
+
+            $review_list[] = $review;
+            
+            $review = new Review();
+            
+            $review->setId('rvw00005');
+            $review->setRestaurantId('rstn0003');
+            $review->setName('ルーヴル');
+            $review->setPoint(1);
+            $review->setSentence('パス・パスタのレビュー３');
+
+            $review_list[] = $review;
+
+            return $review_list;
         }
     }

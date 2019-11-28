@@ -17,7 +17,7 @@
 
     $da = new DataAcquisition();
     
-    $area = $da->acquireArea();
+    $area_list = $da->acquireArea();
 
     $restaurant_list = array();
 
@@ -59,18 +59,17 @@
                -- 地域を選んで下さい -- 
             </option>
 <?php
-    for ($i = 0; $i < count($area); $i++)
+    for ($i = 0; $i < count($area_list); $i++)
     {
 ?>
             <option value="<?= $i + 1 ?>" <?= $area_id_param == $i + 1 ? 'selected' : '' ?>>
-                <?= $area[$i]->getName() ?>
+                <?= $area_list[$i]->getName() ?>
             </option>
 <?php
     }
 ?>
           </select>
           <input type="submit" value="検索" />
-          <input type="hidden" name="restaurant_list" value="<?= $restaurant_list ?>">
         </form>
       </div><!-- /.clearfix -->
       <table class="list">

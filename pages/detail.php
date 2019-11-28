@@ -10,15 +10,30 @@
   </head>
 <?php
     require_once('../class/Restaurant.php');
+    require_once('../class/Review.php');
+    require_once('../class/DataAcquisition.php');
 
     session_start();
 
     $id = $_GET['id'];
-    // $restaurant_list = $_GET['restaurant_list'];
 
     $restaurant_list = $_SESSION['restaurant_list'];
 
     $restaurant = $restaurant_list[$id];
+    
+    $da = new DataAcquisition();
+
+    $review_list = $da->acquireReview();
+
+    $this_review_list = array();
+
+    foreach ($review_list as $rvw)
+    {
+        if ($restaurant->getId() == $rvw->getRestaurantId())
+        {
+            $this_review_list[] = $rvw;
+        }
+    }
 ?>
   <body id="detail">
     <header>
@@ -51,27 +66,38 @@
           </tr>
         </table>
       </article>
+<?php
+    if (!empty($this_review_list))
+    {
+?>
       <article id="reviews">
         <h2>
           レビュー一覧
         </h2>
+<?php
+        $initial_star = '☆☆☆☆☆';
+
+        foreach ($this_review_list as $tr)
+        {
+            $star = preg_replace('/☆/', '★', $initial_star, $tr->getPoint());
+?>
         <dl>
           <dt>
-            ★★★★☆
+            <?= $star ?>
           </dt>
           <dd>
-            常連の者で、いつも夫婦で伺っています。席数が少ないので予約した方が安心ですが、その分落ち着いて食事できますよ。コースのメインは基本的にシェフにお任せ。来るたびに、新しい味との出会いを楽しめるお店です。（totsuka）
+            <?= $tr->getSentence() ?>
+            <br>
+            (<?= $tr->getName() ?>)
           </dd>
         </dl>
-        <dl>
-          <dt>
-            ★★★★★
-          </dt>
-          <dd>
-            説明の通り、喧騒を外れた場所にひっそりとあるレストランでした。伊豆市には初めて来ましたが、本当に桜がきれいですね。何よりも空気がきれいで、いいリフレッシュになりました。（oie）
-          </dd>
-        </dl>
+<?php
+        }
+?>
       </article>
+<?php
+    }
+?>
       <article id="review">
         <h2>
           レビューを書き込む

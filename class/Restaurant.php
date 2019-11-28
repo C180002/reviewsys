@@ -1,29 +1,19 @@
 <?php
     class Restaurant
     {
-        // private $id = '';
-        private $name = '';
+        private $id = '';
         private $area_id = '';
+        private $name = '';
         private $summary = '';
 
-        // public function getId()
-        // {
-        //     return $this->id;
-        // }
-
-        // public function setId($id)
-        // {
-        //     $this->id = $id;
-        // }
-
-        public function getName()
+        public function getId()
         {
-            return $this->name;
+            return $this->id;
         }
 
-        public function setName($name)
+        public function setId($id)
         {
-            $this->name = $name;
+            $this->id = $id;
         }
 
         public function getAreaId()
@@ -34,6 +24,16 @@
         public function setAreaId($area_id)
         {
             $this->area_id = $area_id;
+        }
+
+        public function getName()
+        {
+            return $this->name;
+        }
+
+        public function setName($name)
+        {
+            $this->name = $name;
         }
 
         public function getSummary()
@@ -51,11 +51,11 @@
 
         }
 
-        // function __construct($id, $name, $area_id, $summary)
+        // function __construct($id, $area_id, $name, $summary)
         // {
         //     $this->id = $id;
-        //     $this->name = $name;
         //     $this->area_id = $area_id;
+        //     $this->name = $name;
         //     $this->summary = $summary;
         // }
     }
