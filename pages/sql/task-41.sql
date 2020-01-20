@@ -1,5 +1,5 @@
-SELECT
-	* 
+SELECT 
+  * 
 FROM 
-  areas
+  areas 
 ;
