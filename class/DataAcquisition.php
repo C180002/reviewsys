@@ -7,11 +7,42 @@
     {
         public function acquireArea()
         {
-            $area_list = array();
+            $dp = new ProcessDatabase();
 
-            $area_list[] = new Area('are00001', '福岡');
-            $area_list[] = new Area('are00002', '神戸');
-            $area_list[] = new Area('are00003', '伊豆');
+            // データベース接続
+            $pdo = $dp->connectDatabase();
+            
+            // クエリー組成
+            $query = 
+                    "SELECT ".
+                    "  * ".
+                    "FROM ".
+                    "  areas ".
+                    ";";
+
+            // クエリー実行準備
+            $pdo_stmn = $pdo->prepare($query);
+            
+            // クエリー実行
+            $pdo_stmn->execute();
+            
+            // 全ての結果行を含む配列を返戻
+            $rs = $pdo_stmn->fetchAll();
+
+            // データベース切断
+            $dp->disconnectDatabase($pdo);
+
+            $area_list = array();
+            
+            foreach ($rs as $r)
+            {
+                $id = $r["id"];
+                $name = $r["name"];
+
+                $area = new Area($id, $name);
+
+                $area_list[] = $area;
+            }
 
             return $area_list;
         }
