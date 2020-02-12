@@ -1,5 +1,5 @@
 SELECT 
   * 
 FROM 
-  restaurants
+  restaurants 
 ;

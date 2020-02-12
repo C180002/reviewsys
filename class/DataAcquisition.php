@@ -2,12 +2,59 @@
     require_once('Area.php');
     require_once('Restaurant.php');
     require_once('Review.php');
+    require_once('DatabaseProcess.php');
 
     class DataAcquisition
     {
-        public function acquireArea()
+        public function insertReview($review_a)
         {
-            $dp = new ProcessDatabase();
+            // データベース処理インスタンス生成
+            $dp = new DatabaseProcess();
+
+            // データベース接続
+            $pdo = $dp->connectDatabase();
+            
+            // クエリー組成
+            $query = 
+                    "INSERT INTO ".
+                    "  reviewdb.reviews ".
+                    "  (".
+                    "    `restaurant`, ".
+                    "    `reviewer`, ".
+                    "    `rating`, ".
+                    "    `comment`".
+                    "  ) ".
+                    "  VALUES ".
+                    "  (".
+                    "    :RestaurantId, ".
+                    "    :Name, ".
+                    "    :Point, ".
+                    "    :Sentence".
+                    "  ) ".
+                    ";";
+
+            // クエリー実行準備
+            $pdo_stmn = $pdo->prepare($query);
+            
+            /* プレースホルダーに設定するパラメーターの連想配列を設定 */
+            $param_a = [];
+
+            $param_a[":RestaurantId"] = $review_a["RestaurantId"];
+            $param_a[":Name"] = $review_a["Name"];
+            $param_a[":Point"] = $review_a["Point"];
+            $param_a[":Sentence"] = $review_a["Sentence"];
+            
+            // クエリー実行
+            $pdo_stmn->execute($param_a);
+
+            // データベース切断
+            $dp->disconnectDatabase($pdo);
+        }
+
+        public function selectArea()
+        {
+            // データベース処理インスタンス生成
+            $dp = new DatabaseProcess();
 
             // データベース接続
             $pdo = $dp->connectDatabase();
@@ -17,7 +64,7 @@
                     "SELECT ".
                     "  * ".
                     "FROM ".
-                    "  areas ".
+                    "  reviewdb.areas ".
                     ";";
 
             // クエリー実行準備
@@ -32,7 +79,7 @@
             // データベース切断
             $dp->disconnectDatabase($pdo);
 
-            $area_list = array();
+            $area_a = array();
             
             foreach ($rs as $r)
             {
@@ -41,143 +88,113 @@
 
                 $area = new Area($id, $name);
 
-                $area_list[] = $area;
+                $area_a[] = $area;
             }
 
-            return $area_list;
+            return $area_a;
         }
         
-        public function acquireRestaurant()
+        public function selectRestaurant()
         {
-            $restaurant_list = array();
-            
-            $restaurant = new Restaurant();
-            
-            $restaurant->setId('rst00001');
-            $restaurant->setAreaId('are00003');
-            $restaurant->setName('Wine Bar ENOTECA');
-            $restaurant->setImage('restaurant_1.jpg');
-            $restaurant->setSummary('常時10種類以上の赤・白ワインをご用意しています。<br />記念日にご来店ください。');
+            // データベース処理インスタンス生成
+            $dp = new DatabaseProcess();
 
-            $restaurant_list[] = $restaurant;
+            // データベース接続
+            $pdo = $dp->connectDatabase();
+            
+            // クエリー組成
+            $query = 
+                    "SELECT ".
+                    "  * ".
+                    "FROM ".
+                    "  reviewdb.restaurants ".
+                    ";";
 
-            $restaurant = new Restaurant();
+            // クエリー実行準備
+            $pdo_stmn = $pdo->prepare($query);
             
-            $restaurant->setId('rst00002');
-            $restaurant->setAreaId('are00002');
-            $restaurant->setName('スペイン料理 ポルファボール！');
-            $restaurant->setImage('restaurant_2.jpg');
-            $restaurant->setSummary('味が自慢。スペイン現地で学んだシェフが出す味は本物です。');
+            // クエリー実行
+            $pdo_stmn->execute();
+            
+            // 全ての結果行を含む配列を返戻
+            $rs = $pdo_stmn->fetchAll();
 
-            $restaurant_list[] = $restaurant;
-            
-            $restaurant = new Restaurant();
-            
-            $restaurant->setId('rst00003');
-            $restaurant->setAreaId('are00003');
-            $restaurant->setName('パス・パスタ');
-            $restaurant->setImage('restaurant_3.jpg');
-            $restaurant->setSummary('本当のパスタを味わうならパス・パスタで！<br />休日の優雅なランチタイムに是非どうぞ。');
+            // データベース切断
+            $dp->disconnectDatabase($pdo);
 
-            $restaurant_list[] = $restaurant;
-            
-            $restaurant = new Restaurant();
-            
-            $restaurant->setId('rst00004');
-            $restaurant->setAreaId('are00002');
-            $restaurant->setName('レストラン「有閑」');
-            $restaurant->setImage('restaurant_4.jpg');
-            $restaurant->setSummary('広い店内で、お昼の優雅なひと時を過ごしませんか？');
+            $rstn_a = array();
 
-            $restaurant_list[] = $restaurant;
-            
-            $restaurant = new Restaurant();
-            
-            $restaurant->setId('rst00005');
-            $restaurant->setAreaId('are00003');
-            $restaurant->setName('ビストロ「ルーヴル」');
-            $restaurant->setImage('restaurant_5.jpg');
-            $restaurant->setSummary('高層ビル42階のビストロで、県内が一望できる。恋人とのひと時をここで過ごしませんか。');
+            foreach ($rs as $r)
+            {
+                $id = $r["id"];
+                $area_id = $r["area"];
+                $name = $r["name"];
+                $image = $r["image"];
+                $summary = $r["detail"];
 
-            $restaurant_list[] = $restaurant;
-            
-            $restaurant = new Restaurant();
-            
-            $restaurant->setId('rst00006');
-            $restaurant->setAreaId('are00001');
-            $restaurant->setName('海沿いのレストラン La Mer');
-            $restaurant->setImage('restaurant_6.jpg');
-            $restaurant->setSummary('海が見える、海沿いのレストランです。');
+                $rstn = new Restaurant();
+                
+                $rstn->setId($id);
+                $rstn->setAreaId($area_id);
+                $rstn->setName($name);
+                $rstn->setImage($image);
+                $rstn->setSummary($summary);
 
-            $restaurant_list[] = $restaurant;
-            
-            $restaurant = new Restaurant();
-            
-            $restaurant->setId('rst00007');
-            $restaurant->setAreaId('are00003');
-            $restaurant->setName('レストラン さくら');
-            $restaurant->setImage('restaurant_7.jpg');
-            $restaurant->setSummary('四季折々の自然を楽しむ伊豆市に、ひっそりと佇む隠れ家レストラン。\n旅行でいらっしゃった方も、お近くの方も、お気軽にお立ち寄りください。');
+                $rstn_a[] = $rstn;
+            }
 
-            $restaurant_list[] = $restaurant;
-
-            return $restaurant_list;
+            return $rstn_a;
         }
         
-        public function acquireReview()
+        public function selectReview()
         {
-            $review_list = array();
-            
-            $review = new Review();
-            
-            $review->setId('rvw00001');
-            $review->setRestaurantId('rst00007');
-            $review->setName('totsuka');
-            $review->setPoint(4);
-            $review->setSentence('常連の者で、いつも夫婦で伺っています。席数が少ないので予約した方が安心ですが、その分落ち着いて食事できますよ。コースのメインは基本的にシェフにお任せ。来るたびに、新しい味との出会いを楽しめるお店です。');
+            // データベース処理インスタンス生成
+            $dp = new DatabaseProcess();
 
-            $review_list[] = $review;
+            // データベース接続
+            $pdo = $dp->connectDatabase();
+            
+            // クエリー組成
+            $query = 
+                    "SELECT ".
+                    "  * ".
+                    "FROM ".
+                    "  reviewdb.reviews ".
+                    ";";
 
-            $review = new Review();
+            // クエリー実行準備
+            $pdo_stmn = $pdo->prepare($query);
             
-            $review->setId('rvw00002');
-            $review->setRestaurantId('rst00007');
-            $review->setName('oie');
-            $review->setPoint(5);
-            $review->setSentence('説明の通り、喧騒を外れた場所にひっそりとあるレストランでした。伊豆市には初めて来ましたが、本当に桜がきれいですね。何よりも空気がきれいで、いいリフレッシュになりました。');
+            // クエリー実行
+            $pdo_stmn->execute();
+            
+            // 全ての結果行を含む配列を返戻
+            $rs = $pdo_stmn->fetchAll();
 
-            $review_list[] = $review;
-            
-            $review = new Review();
-            
-            $review->setId('rvw00003');
-            $review->setRestaurantId('rst00003');
-            $review->setName('パパス');
-            $review->setPoint(5);
-            $review->setSentence('パス・パスタのレビュー１');
+            // データベース切断
+            $dp->disconnectDatabase($pdo);
 
-            $review_list[] = $review;
-            
-            $review = new Review();
-            
-            $review->setId('rvw00004');
-            $review->setRestaurantId('rst00003');
-            $review->setName('有閑');
-            $review->setPoint(3);
-            $review->setSentence('パス・パスタのレビュー２');
+            $rvw_a = array();
 
-            $review_list[] = $review;
-            
-            $review = new Review();
-            
-            $review->setId('rvw00005');
-            $review->setRestaurantId('rst00003');
-            $review->setName('ルーヴル');
-            $review->setPoint(1);
-            $review->setSentence('パス・パスタのレビュー３');
+            foreach ($rs as $r)
+            {
+                $id = $r["id"];
+                $restaurant_id = $r["restaurant"];
+                $name = $r["reviewer"];
+                $point = $r["rating"];
+                $sentence = $r["comment"];
 
-            $review_list[] = $review;
+                $rvw = new Review();
+                
+                $rvw->setId($id);
+                $rvw->setRestaurantId($restaurant_id);
+                $rvw->setName($name);
+                $rvw->setPoint($point);
+                $rvw->setSentence($sentence);
 
-            return $review_list;
+                $rvw_a[] = $rvw;
+            }
+
+            return $rvw_a;
         }
     }

@@ -26,29 +26,60 @@
         $id = $_SESSION['id'];
     }
 
-    $restaurant_list = $_SESSION['restaurant_list'];
+    $name = "";
+    $point = "";
+    $sentence = "";
+
+    if (isset($_POST['reviewer']))
+    {
+        $name = $_POST['reviewer'];
+    }
+
+    if (isset($_POST['point']))
+    {
+        $point = $_POST['point'];
+    }
+
+    if (isset($_POST['comment']))
+    {
+        $sentence = $_POST['comment'];
+    }
+    
+    $da = new DataAcquisition();
+
+    if ($name != "" && $point != "" && $sentence != "")
+    {
+      $review_a = array();
+
+      $review_a["RestaurantId"] = $id;
+      $review_a["Name"] = $name;
+      $review_a["Point"] = $point;
+      $review_a["Sentence"] = $sentence;
+
+      $da->insertReview($review_a);
+    }
+
+    $restaurant_a = $_SESSION['RestaurantList'];
 
     $restaurant = null;
 
-    foreach ($restaurant_list as $rstn)
+    foreach ($restaurant_a as $rstn)
     {
         if ($rstn->getId() == $id)
         {
             $restaurant = $rstn;
         }
     }
-    
-    $da = new DataAcquisition();
 
-    $review_list = $da->acquireReview();
+    $review_a = $da->selectReview();
 
-    $this_review_list = array();
+    $this_review_a = array();
 
-    foreach ($review_list as $rvw)
+    foreach ($review_a as $rvw)
     {
         if ($restaurant->getId() == $rvw->getRestaurantId())
         {
-            $this_review_list[] = $rvw;
+            $this_review_a[] = $rvw;
         }
     }
 ?>
@@ -84,7 +115,7 @@
         </table>
       </article>
 <?php
-    if (!empty($this_review_list))
+    if (!empty($this_review_a))
     {
 ?>
       <article id="reviews">
@@ -94,7 +125,7 @@
 <?php
         $initial_star = '☆☆☆☆☆';
 
-        foreach ($this_review_list as $tr)
+        foreach ($this_review_a as $tr)
         {
             $star = preg_replace('/☆/', '★', $initial_star, $tr->getPoint());
 ?>

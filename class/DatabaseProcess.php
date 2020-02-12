@@ -1,5 +1,8 @@
 <?php
-    class ProcessDatabase
+    /**
+     * 【データベース処理】
+     */
+    class DatabaseProcess
     {
         // データベース接続文字列：データベースに接続するための汎用接続情報
         const DB_DSN = "mysql:host=localhost; dbname=reviewdb";

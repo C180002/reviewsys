@@ -17,19 +17,19 @@
 
     $da = new DataAcquisition();
     
-    $area_list = $da->acquireArea();
+    $area_a = $da->selectArea();
 
-    $restaurant_list = array();
+    $restaurant_a = array();
 
-    if (isset($_SESSION['restaurant_list']))
+    if (isset($_SESSION['RestaurantList']))
     {
-        $restaurant_list = $_SESSION['restaurant_list'];
+        $restaurant_a = $_SESSION['RestaurantList'];
     }
     else
     {
-        $restaurant_list = $da->acquireRestaurant();
+        $restaurant_a = $da->selectRestaurant();
 
-        $_SESSION['restaurant_list'] = $restaurant_list;
+        $_SESSION['RestaurantList'] = $restaurant_a;
     }
 
     $area_id_param = '';
@@ -59,7 +59,7 @@
                -- 地域を選んで下さい -- 
             </option>
 <?php
-    foreach ($area_list as $a)
+    foreach ($area_a as $a)
     {
         $area_id = $a->getId();
 ?>
@@ -75,7 +75,7 @@
       </div><!-- /.clearfix -->
       <table class="list">
 <?php
-    foreach ($restaurant_list as $rstn)
+    foreach ($restaurant_a as $rstn)
     {
         $id = $rstn->getId();
         $area_id = $rstn->getAreaId();
